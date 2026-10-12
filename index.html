@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
+/* Layout: sticky bar, then a hero where the 3D pizza IS the menu (8 slices = 8 categories). Text + item list on the left, stage on the right; on phones: intro, pizza, list. Below: oven facts, hours, contact. */
 :root {
   --bg: #150f0b;
   --surface: #211810;
@@ -39,6 +40,7 @@ h1, h2, h3 { font-family: var(--font-display); text-transform: uppercase; font-w
 .wrap { width: min(1200px, 100%); margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
 :focus-visible { outline: 2px solid var(--cheese); outline-offset: 3px; }
 
+/* header */
 .bar {
   position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
   background: rgba(21, 15, 11, 0.88);
@@ -65,10 +67,11 @@ h1, h2, h3 { font-family: var(--font-display); text-transform: uppercase; font-w
 .btn.ghost:hover { background: var(--surface-2); }
 @media (max-width: 820px) { .nav { display: none; } .status { display: none; } }
 
+/* hero */
 .hero { position: relative; isolation: isolate; }
 .hero::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='48'%3E%3Cpath d='M0 0H96M0 24H96M0 48H96M0 0V24M48 24V48M96 0V24' fill='none' stroke='%23f4ead9' stroke-opacity='.08' stroke-width='2'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='48'%3E%3Cpath d='M0 0H96M0 24H96M0 48H96M0 0V24M48 24V48M96 0V24' fill='none' stroke='%23f4ead9' stroke-opacity='.06' stroke-width='2'/%3E%3C/svg%3E");
   -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 40%, transparent 100%);
 }
@@ -108,11 +111,13 @@ h1 em { font-style: normal; color: var(--fire); }
 .hint { text-align: center; font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem; }
 @media (max-width: 480px) { .slice-label { font-size: 0.68rem; padding: 0.55rem 0.5rem; letter-spacing: 0.06em; } }
 
+/* no WebGL fallback */
 .no-gl .stage { aspect-ratio: auto; }
 .no-gl .stage::before, .no-gl #c { display: none; }
 .no-gl .labels { position: static; display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .no-gl .slice-label { position: static; transform: none !important; }
 
+/* menu panel */
 .menu-panel { grid-area: panel; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: clamp(1.1rem, 3vw, 1.75rem); min-width: 0; }
 .panel-head { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
 .panel-head h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); line-height: 1; color: var(--cheese); }
@@ -132,6 +137,7 @@ h1 em { font-style: normal; color: var(--fire); }
   .stage { max-height: none; }
 }
 
+/* sections */
 section.block { padding-block: clamp(3rem, 7vw, 6rem); border-top: 1px solid var(--line); }
 .split { display: grid; gap: 2rem clamp(2rem, 6vw, 6rem); grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
 @media (max-width: 760px) { .split { grid-template-columns: minmax(0, 1fr); } }
@@ -150,7 +156,7 @@ h2.big { font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1; margin-bottom: 1re
 .hours-row dt { font-weight: 500; }
 .hours-row dd { margin-left: auto; color: var(--muted); }
 .hours-row.today dt, .hours-row.today dd { color: var(--cheese); font-weight: 700; }
-.hours-row.today dt::after { content: "dziś"; margin-left: 0.6rem; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg); background: var(--fire-strong); padding: 0.2rem 0.4rem; border-radius: 999px; vertical-align: middle; }
+.hours-row.today dt::after { content: "dziś"; margin-left: 0.6rem; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg); background: var(--fire-strong); padding: 0.15rem 0.4rem; border-radius: 2px; vertical-align: middle; }
 
 .contact-lines { display: flex; flex-direction: column; gap: 1.1rem; margin-top: 1.25rem; }
 .contact-lines dt { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
@@ -170,7 +176,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; justify-conte
 <header class="bar">
   <div class="wrap">
     <a class="logo" href="#top" aria-label="Forno Vivo, strona główna">
-      <svg viewBox="0 0 22 26" aria-hidden="true"><path d="M11 1c1 4.5 6 7 6 13a6 6 0 0 1-12 0c0-2.2 1-3.8 2.2-5C8.200 11 9 12 10 12.500 9.500 8 10 4.500 11 1Z" fill="#ee5a36"/><path d="M11 24a3.600 3.600 0 1 1 0-7.200 3.600 3.600 0 0 1 0 7.200Z" fill="#f4bf4f"/><path d="M5.5 17.5c1.5-1.5 3.5-2.2 5.5-2.2s4 0.7 5.5 2.2" fill="none" stroke="#f4ead9" stroke-width="1.1" stroke-linecap="round" /></svg>
+      <svg viewBox="0 0 22 26" aria-hidden="true"><path d="M11 1c1 4.5 6 7 6 13a6 6 0 0 1-12 0c0-2.2 1-3.8 2.2-5C8.200 11 9 12 10 12.500 9.500 8 10 4.500 11 1Z" fill="#ee5a36"/><path d="M11 24a3.600 3.600 0 0 1-3.600-3.600c0-2 1.800-3 2.400-5 1.700 1.200 4.800 2.700 4.800 5A3.600 3.600 0 0 1 11 24Z" fill="#f4bf4f"/></svg>
       Forno Vivo
     </a>
     <nav class="nav" aria-label="Sekcje strony">
@@ -321,6 +327,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; justify-conte
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var selected = 0, hovered = -1, view = null;
 
+  /* ---------- labels, panel, shared state ---------- */
   var labelEls = CATS.map(function (c, i) {
     var b = document.createElement('button');
     b.type = 'button';
@@ -364,6 +371,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; justify-conte
     if (view) view.focusSlice(i);
   }
 
+  /* ---------- 3D ---------- */
   function mulberry32(a) {
     return function () {
       a |= 0; a = a + 0x6D2B79F5 | 0;
@@ -373,6 +381,8 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; justify-conte
     };
   }
   function wrapAngle(a) { return Math.atan2(Math.sin(a), Math.cos(a)); }
+
+  /* ---------- noise, colour and geometry helpers ---------- */
   function hash3(x, y, z, s) {
     var h = Math.imul(x | 0, 374761393) ^ Math.imul(y | 0, 668265263) ^ Math.imul(z | 0, 1274126177) ^ Math.imul(s | 0, 2246822519);
     h = Math.imul(h ^ (h >>> 13), 1274126177);
@@ -400,6 +410,73 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; justify-conte
   function sstep(a, b, x) { var t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); }
   function lin(hex) { return new THREE.Color(hex).convertSRGBToLinear(); }
 
+  function paint(g, c) {
+    var n = g.attributes.position.count, a = new Float32Array(n * 3);
+    for (var i = 0; i < n; i++) { a[i * 3] = c.r; a[i * 3 + 1] = c.g; a[i * 3 + 2] = c.b; }
+    g.setAttribute('color', new THREE.BufferAttribute(a, 3));
+    return g;
+  }
+  function paintFn(g, fn) {
+    var p = g.attributes.position, nm = g.attributes.normal, N = p.count, a = new Float32Array(N * 3), c = new THREE.Color();
+    for (var i = 0; i < N; i++) {
+      fn(c, p.getX(i), p.getY(i), p.getZ(i), nm ? nm.getX(i) : 0, nm ? nm.getY(i) : 0, nm ? nm.getZ(i) : 1);
+      a[i * 3] = c.r; a[i * 3 + 1] = c.g; a[i * 3 + 2] = c.b;
+    }
+    g.setAttribute('color', new THREE.BufferAttribute(a, 3));
+    return g;
+  }
+  function mergeGeos(list) {
+    var names = ['position', 'normal', 'uv', 'color'], sizes = { position: 3, normal: 3, uv: 2, color: 3 };
+    var use = names.filter(function (nm) { return list.every(function (g) { return g.attributes[nm]; }); });
+    var total = 0;
+    list.forEach(function (g) { total += g.attributes.position.count; });
+    var out = new THREE.BufferGeometry();
+    use.forEach(function (nm) {
+      var arr = new Float32Array(total * sizes[nm]), off = 0;
+      list.forEach(function (g) { arr.set(g.attributes[nm].array, off); off += g.attributes[nm].array.length; });
+      out.setAttribute(nm, new THREE.BufferAttribute(arr, sizes[nm]));
+    });
+    return out;
+  }
+  function placed(geo, o) {
+    o = o || {};
+    var p = o.p || [0, 0, 0], r = o.r || [0, 0, 0], s = o.s || [1, 1, 1];
+    var m = new THREE.Matrix4().compose(
+      new THREE.Vector3(p[0], p[1], p[2]),
+      new THREE.Quaternion().setFromEuler(new THREE.Euler(r[0], r[1], r[2])),
+      new THREE.Vector3(s[0], s[1], s[2]));
+    var g = geo.index ? geo.toNonIndexed() : geo.clone();
+    g.applyMatrix4(m);
+    return g;
+  }
+  function Batch() { this.parts = {}; }
+  Batch.prototype.add = function (key, geo, o) {
+    (this.parts[key] = this.parts[key] || []).push(placed(geo, o));
+  };
+  function compose(items) {
+    return mergeGeos(items.map(function (it) { return placed(it.geo, it); }));
+  }
+  function geoFrom(pos, col, uv, idx) {
+    var g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pos), 3));
+    if (col) g.setAttribute('color', new THREE.BufferAttribute(new Float32Array(col), 3));
+    if (uv) g.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(uv), 2));
+    g.setIndex(idx);
+    g.computeVertexNormals();
+    return g;
+  }
+  function canvasTex(size, fn, linear) {
+    var c = document.createElement('canvas');
+    c.width = c.height = size;
+    fn(c.getContext('2d'), size);
+    var t = new THREE.CanvasTexture(c);
+    t.encoding = linear ? THREE.LinearEncoding : THREE.sRGBEncoding;
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.anisotropy = 4;
+    return t;
+  }
+  function dot(g, x, y, r, fill) { g.fillStyle = fill; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill(); }
+
   function build3D() {
     if (typeof THREE === 'undefined') throw new Error('no three');
     var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
@@ -411,124 +488,980 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; justify-conte
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
 
+    /* soft studio reflections for the glossy bits (oil, olives, shrimp) */
+    try {
+      var envScene = new THREE.Scene();
+      var dome = new THREE.SphereGeometry(40, 24, 16), dp = dome.attributes.position, dc = [];
+      for (var vi = 0; vi < dp.count; vi++) {
+        var tt = dp.getY(vi) / 40 * 0.5 + 0.5;
+        dc.push(0.05 + 0.75 * tt, 0.035 + 0.55 * tt, 0.02 + 0.38 * tt);
+      }
+      dome.setAttribute('color', new THREE.BufferAttribute(new Float32Array(dc), 3));
+      envScene.add(new THREE.Mesh(dome, new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.BackSide })));
+      [[-14, 22, 10, 14, 9], [16, 12, -12, 9, 6]].forEach(function (b, k) {
+        var s = new THREE.Mesh(
+          new THREE.PlaneGeometry(b[3], b[4]),
+          new THREE.MeshBasicMaterial({ color: new THREE.Color(k ? 2.2 : 5, k ? 1.4 : 4.2, k ? 0.9 : 3.2), side: THREE.DoubleSide }));
+        s.position.set(b[0], b[1], b[2]);
+        s.lookAt(0, 0, 0);
+        envScene.add(s);
+      });
+      var pm = new THREE.PMREMGenerator(renderer);
+      scene.environment = pm.fromScene(envScene, 0.03).texture;
+      pm.dispose();
+    } catch (e) { /* reflections are optional */ }
+
     scene.add(new THREE.HemisphereLight(0xfff0dd, 0x3a2515, 0.38));
     var key = new THREE.DirectionalLight(0xffe2b8, 0.9);
     key.position.set(-4, 9, 5);
     key.castShadow = true;
-    key.shadow.mapSize.set(2048, 2048);
+    var coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+    key.shadow.mapSize.set(coarse ? 2048 : 4096, coarse ? 2048 : 4096);
     key.shadow.camera.left = -5.3; key.shadow.camera.right = 5.3;
     key.shadow.camera.top = 5.3; key.shadow.camera.bottom = -5.3;
     key.shadow.camera.near = 1; key.shadow.camera.far = 25;
     key.shadow.bias = -0.0004;
     key.shadow.normalBias = 0.02;
     scene.add(key);
+    var rim = new THREE.DirectionalLight(0xff7a3a, 0.55);
+    rim.position.set(5, 3, -6);
+    scene.add(rim);
 
+    /* wooden board with a sheet of baking paper */
+    var woodTex = canvasTex(512, function (g, S) {
+      g.fillStyle = '#5b3b22'; g.fillRect(0, 0, S, S);
+      var rnd = mulberry32(7);
+      for (var i = 0; i < 70; i++) {
+        var y = rnd() * S;
+        g.strokeStyle = 'rgba(' + (20 + rnd() * 30 | 0) + ',' + (10 + rnd() * 20 | 0) + ',5,' + (0.12 + rnd() * 0.2).toFixed(2) + ')';
+        g.lineWidth = 1 + rnd() * 3;
+        g.beginPath(); g.moveTo(0, y);
+        for (var x = 0; x <= S; x += 32) g.lineTo(x, y + Math.sin(x * 0.02 + i) * 6 + (rnd() - 0.5) * 3);
+        g.stroke();
+      }
+    });
     var board = new THREE.Mesh(
       new THREE.CylinderGeometry(R + 1.0, R + 1.0, 0.2, 72),
-      new THREE.MeshStandardMaterial({ color: 0x5b3b22, roughness: 0.9, envMapIntensity: 0.2 })
-    );
+      new THREE.MeshStandardMaterial({ map: woodTex, roughness: 0.9, envMapIntensity: 0.2 }));
     board.position.y = -0.105;
     board.receiveShadow = true;
     scene.add(board);
 
+    var paperTex = canvasTex(512, function (g, S) {
+      var rnd = mulberry32(21);
+      g.fillStyle = '#b9a883'; g.fillRect(0, 0, S, S);
+      for (var i = 0; i < 26; i++) {
+        var gr = g.createRadialGradient(0, 0, 0, 0, 0, 1);
+        var x = rnd() * S, y = rnd() * S, r = 14 + rnd() * 46;
+        g.save(); g.translate(x, y); g.scale(r, r * (0.6 + rnd() * 0.5));
+        gr.addColorStop(0, 'rgba(150,95,40,' + (0.12 + rnd() * 0.14).toFixed(2) + ')');
+        gr.addColorStop(1, 'rgba(150,95,40,0)');
+        g.fillStyle = gr; g.beginPath(); g.arc(0, 0, 1, 0, Math.PI * 2); g.fill(); g.restore();
+      }
+      for (var k = 0; k < 160; k++) dot(g, rnd() * S, rnd() * S, 0.6 + rnd() * 1.4, 'rgba(230,220,195,' + (0.3 + rnd() * 0.4).toFixed(2) + ')');
+    });
     var paper = new THREE.Mesh(
       new THREE.CylinderGeometry(R + 0.55, R + 0.55, 0.01, 72),
-      new THREE.MeshStandardMaterial({ color: 0xb9a883, roughness: 1, envMapIntensity: 0.1 })
-    );
+      new THREE.MeshStandardMaterial({ map: paperTex, roughness: 1, envMapIntensity: 0.1 }));
     paper.receiveShadow = true;
     scene.add(paper);
 
-    function PizzaView() {
-      this.group = new THREE.Group();
-      this.group.rotation.x = -0.52;
-      this.group.rotation.y = 0.75;
-      this.angle = 0;
-      this.sliceAngle = 0;
-      this.slices = [];
-      this.selected = 0;
-      scene.add(this.group);
-
-      this.init = function () {
-        for (var i = 0; i < N; i++) {
-          var slice = new THREE.Mesh(
-            new THREE.CircleGeometry(2.8, 64, 0, Math.PI * 2 / N),
-            new THREE.MeshStandardMaterial({ color: new THREE.Color().setHSL(i / N, 0.65, 0.55), roughness: 0.8, metalness: 0.1 })
-          );
-
-          slice.rotation.z = -i * STEP;
-          slice.position.set(0, 0, 0.02);
-          this.group.add(slice);
-          this.slices.push(slice);
-        }
-
-        var crust = new THREE.Mesh(
-          new THREE.CylinderGeometry(2.9, 2.9, 0.18, 72),
-          new THREE.MeshStandardMaterial({ color: 0xe2bd84, roughness: 0.9 })
-        );
-        crust.position.y = 0.05;
-        this.group.add(crust);
-      };
-
-      this.focusSlice = function (i) {
-        this.selected = i;
-        this.sliceAngle = (i - selected) * 0.15;
-      };
-
-      this.update = function (time) {
-        var targetY = 0.75 + Math.sin(time * 0.0009) * 0.15;
-        this.group.rotation.y += (targetY - this.group.rotation.y) * 0.04;
-        this.group.rotation.z += (this.sliceAngle - this.group.rotation.z) * 0.06;
-        this.sliceAngle *= 0.94;
-      };
-    }
-
-    view = new PizzaView();
-    view.init();
-
-    camera.position.set(0, 1.9, 8.5);
-    camera.lookAt(0, 0.2, 0);
-
-    function render(t) {
-      requestAnimationFrame(render);
-      view.update(t);
-      renderer.render(scene, camera);
-    }
-    requestAnimationFrame(render);
-  }
-
-  function bindUI() {
-    var status = document.getElementById('status');
-    var statusText = document.getElementById('status-text');
-    var phone = document.getElementById('phone');
-    var copyPhone = document.getElementById('copy-phone');
-
-    var now = new Date();
-    var day = now.getDay();
-    var open = (day >= 1 && day <= 4) || day === 5 || day === 6;
-    status.classList.toggle('open', open);
-    statusText.textContent = open ? 'Otwarte teraz' : 'Zamknięte';
-
-    var hoursRows = document.querySelectorAll('.hours-row');
-    hoursRows.forEach(function (row) {
-      if (row.dataset.days && row.dataset.days.split(' ').indexOf(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][day]) !== -1) {
-        row.classList.add('today');
+    /* textures for the round toppings (top view, rim at the circle edge) */
+    var texPep = canvasTex(256, function (g, S) {
+      var rnd = mulberry32(3), c = S / 2;
+      var gr = g.createRadialGradient(c, c, 0, c, c, c);
+      gr.addColorStop(0, '#c9392d'); gr.addColorStop(0.6, '#b52b21'); gr.addColorStop(0.9, '#92201a'); gr.addColorStop(1, '#5a0f0a');
+      g.fillStyle = gr; g.fillRect(0, 0, S, S);
+      for (var i = 0; i < 150; i++) {
+        var a = rnd() * 6.283, d = Math.sqrt(rnd()) * c * 0.88;
+        dot(g, c + Math.cos(a) * d, c + Math.sin(a) * d, 1.5 + rnd() * 4, rnd() < 0.78 ? 'rgba(238,156,132,0.55)' : 'rgba(55,8,6,0.5)');
       }
     });
-
-    copyPhone.addEventListener('click', function () {
-      navigator.clipboard && navigator.clipboard.writeText(phone.textContent.trim());
+    var texSal = canvasTex(256, function (g, S) {
+      var rnd = mulberry32(5), c = S / 2;
+      var gr = g.createRadialGradient(c, c, 0, c, c, c);
+      gr.addColorStop(0, '#9a2218'); gr.addColorStop(0.85, '#7f1a12'); gr.addColorStop(1, '#4a0e09');
+      g.fillStyle = gr; g.fillRect(0, 0, S, S);
+      for (var i = 0; i < 60; i++) {
+        var a = rnd() * 6.283, d = Math.sqrt(rnd()) * c * 0.86;
+        dot(g, c + Math.cos(a) * d, c + Math.sin(a) * d, 3 + rnd() * 6, 'rgba(240,215,198,0.88)');
+      }
+      for (var k = 0; k < 40; k++) {
+        var a2 = rnd() * 6.283, d2 = Math.sqrt(rnd()) * c * 0.9;
+        dot(g, c + Math.cos(a2) * d2, c + Math.sin(a2) * d2, 1 + rnd() * 1.6, 'rgba(25,8,6,0.8)');
+      }
     });
+    var texZuc = canvasTex(256, function (g, S) {
+      var c = S / 2;
+      g.fillStyle = '#4a8a33'; g.fillRect(0, 0, S, S);
+      dot(g, c, c, c * 0.86, '#d9e9a8');
+      dot(g, c, c, c * 0.18, '#eaf2c0');
+      for (var k = 0; k < 12; k++) {
+        var a = k / 12 * 6.283;
+        dot(g, c + Math.cos(a) * c * 0.48, c + Math.sin(a) * c * 0.48, c * 0.07, '#f1f7d2');
+        dot(g, c + Math.cos(a + 0.26) * c * 0.7, c + Math.sin(a + 0.26) * c * 0.7, c * 0.03, 'rgba(120,160,70,0.5)');
+      }
+    });
+    var texLem = canvasTex(256, function (g, S) {
+      var c = S / 2;
+      g.fillStyle = '#efc82c'; g.fillRect(0, 0, S, S);
+      dot(g, c, c, c * 0.9, '#fbf2c8');
+      dot(g, c, c, c * 0.82, '#f5de5c');
+      g.strokeStyle = '#fdf7d8'; g.lineWidth = 4;
+      for (var k = 0; k < 9; k++) {
+        var a = k / 9 * 6.283;
+        g.beginPath(); g.moveTo(c, c); g.lineTo(c + Math.cos(a) * c * 0.82, c + Math.sin(a) * c * 0.82); g.stroke();
+        dot(g, c + Math.cos(a + 0.35) * c * 0.5, c + Math.sin(a + 0.35) * c * 0.5, c * 0.12, 'rgba(255,240,140,0.55)');
+      }
+      dot(g, c, c, c * 0.07, '#fffbe6');
+    });
+
+    var texTom = canvasTex(256, function (g, S) {
+      var c = S / 2;
+      g.fillStyle = '#cf2a1e'; g.fillRect(0, 0, S, S);
+      dot(g, c, c, c * 0.88, '#e24c32');
+      for (var k = 0; k < 3; k++) {
+        var a = k * 2.094 + 0.5;
+        g.fillStyle = '#f39662'; g.beginPath(); g.moveTo(c, c); g.arc(c, c, c * 0.72, a - 0.85, a + 0.85); g.closePath(); g.fill();
+        for (var q = 0; q < 5; q++) {
+          var rr = c * (0.4 + (q % 2) * 0.15), aa = a + (q - 2) * 0.28;
+          dot(g, c + Math.cos(aa) * rr, c + Math.sin(aa) * rr, c * 0.05, '#f9e7a8');
+        }
+      }
+      dot(g, c, c, c * 0.12, '#f6d9a2');
+    });
+    var texBump = canvasTex(256, function (g, S) {
+      var rnd = mulberry32(9);
+      g.fillStyle = '#808080'; g.fillRect(0, 0, S, S);
+      for (var i = 0; i < 900; i++) {
+        var x = rnd() * S, y = rnd() * S, r = 2 + rnd() * 8, light = rnd() < 0.5;
+        for (var ox = -1; ox <= 1; ox++) {
+          for (var oy = -1; oy <= 1; oy++) {
+            var gx = x + ox * S, gy = y + oy * S;
+            if (gx < -r || gy < -r || gx > S + r || gy > S + r) continue;
+            var gr = g.createRadialGradient(gx, gy, 0, gx, gy, r);
+            gr.addColorStop(0, light ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.45)');
+            gr.addColorStop(1, 'rgba(128,128,128,0)');
+            g.fillStyle = gr; g.fillRect(gx - r, gy - r, r * 2, r * 2);
+          }
+        }
+      }
+    }, true);
+    var texCrumb = canvasTex(256, function (g, S) {
+      var rnd = mulberry32(13);
+      g.fillStyle = '#efd5a2'; g.fillRect(0, 0, S, S);
+      for (var i = 0; i < 90; i++) {
+        g.save(); g.translate(rnd() * S, rnd() * S * 0.8 + 6); g.scale(1 + rnd() * 2.4, 0.6 + rnd() * 1.4);
+        dot(g, 0, 0, 2 + rnd() * 4, 'rgba(176,124,66,' + (0.25 + rnd() * 0.3).toFixed(2) + ')');
+        g.restore();
+      }
+      for (var k = 0; k < 120; k++) dot(g, rnd() * S, rnd() * S, 0.6 + rnd() * 1.2, 'rgba(255,246,222,0.7)');
+      var gb = g.createLinearGradient(0, S * 0.8, 0, S);
+      gb.addColorStop(0, 'rgba(176,112,48,0)'); gb.addColorStop(1, 'rgba(150,86,32,0.95)');
+      g.fillStyle = gb; g.fillRect(0, S * 0.8, S, S * 0.2);
+      var gt = g.createLinearGradient(0, 0, 0, S * 0.1);
+      gt.addColorStop(0, 'rgba(190,130,70,0.55)'); gt.addColorStop(1, 'rgba(190,130,70,0)');
+      g.fillStyle = gt; g.fillRect(0, 0, S, S * 0.1);
+    });
+
+    function M(o) { return new THREE.MeshStandardMaterial(o); }
+    var DS = THREE.DoubleSide;
+    var MATS = {
+      vc: M({ vertexColors: true, roughness: 0.62, envMapIntensity: 0.4 }),
+      gloss: M({ vertexColors: true, roughness: 0.24, envMapIntensity: 1.0 }),
+      leaf: M({ vertexColors: true, roughness: 0.5, envMapIntensity: 0.5, side: DS }),
+      pep: M({ map: texPep, roughness: 0.42, envMapIntensity: 0.8, side: DS }),
+      sal: M({ map: texSal, roughness: 0.5, envMapIntensity: 0.5, side: DS }),
+      zuc: M({ map: texZuc, roughness: 0.45, envMapIntensity: 0.6, side: DS }),
+      lem: M({ map: texLem, roughness: 0.4, envMapIntensity: 0.7, side: DS }),
+      tom: M({ map: texTom, roughness: 0.35, envMapIntensity: 0.9, side: DS }),
+      oil: M({ color: lin('#ffb347'), transparent: true, opacity: 0.4, roughness: 0.06, envMapIntensity: 1.7, depthWrite: false }),
+      ice: M({ color: lin('#d4f0f7'), transparent: true, opacity: 0.55, roughness: 0.06, envMapIntensity: 1.5 })
+    };
+    var DOUGH_MAT = M({ color: lin('#e2bd84'), roughness: 0.9, envMapIntensity: 0.2 });
+    var CRUST_MAT = M({ vertexColors: true, roughness: 0.84, envMapIntensity: 0.3, side: DS, bumpMap: texBump, bumpScale: 0.6 });
+    var CRUMB_MAT = M({ map: texCrumb, roughness: 0.95, envMapIntensity: 0.15, side: DS });
+
+    var C = {
+      mozz: lin('#fff2d8'), mozzTop: lin('#efcd84'), blister: lin('#b8722a'),
+      basil: lin('#2d7a34'), basilVein: lin('#a2d47e'), mint: lin('#3fa86a'), mintVein: lin('#b7e8c4'),
+      olive: lin('#221a26'), pepG: lin('#3fa047'), pepY: lin('#efc12a'), chili: lin('#cc1f17'),
+      mushFace: lin('#ecdfc6'), mushSide: lin('#a8875d'), gorgon: lin('#f1ead0'), blue: lin('#5d8798'),
+      rosemary: lin('#41653a'), stem: lin('#6b5230'), truffle: lin('#2b1c15'), truffleV: lin('#6c5a4a'),
+      shell: lin('#202a38'), flesh: lin('#ea8f3e'), shrimpA: lin('#f2905f'), shrimpB: lin('#f9b88f'),
+      straw: lin('#d3213b'), strawCore: lin('#f6c7c7'), seed: lin('#f1d36b'), swirl: lin('#3a1c10'), swirlHi: lin('#5a3320'),
+      herbA: lin('#4f6b2a'), herbB: lin('#3b5a22'), sugar: lin('#ffffff'),
+      ham: lin('#d9807a'), hamFat: lin('#f4dcd2'), sausage: lin('#7b3b22'), sausageHi: lin('#a85a3a'),
+      rocket: lin('#3f8f33'), rocketVein: lin('#c5e3a0'), caper: lin('#6f7d2e'), flake: lin('#fff1c4'),
+      chiliF: lin('#c5240f'), pepperB: lin('#1a1412'), nut: lin('#a9703c'), nutDark: lin('#6e4322'),
+      crBase: lin('#dba55b'), crGold: lin('#c58637'), crChar: lin('#5e2e10'), crPale: lin('#f0d9aa'), crumb: lin('#f2dcab'), crumbHole: lin('#c9985a')
+    };
+
+    function wedge(r, h) {
+      var s = new THREE.Shape();
+      s.moveTo(0, 0);
+      s.lineTo(r * Math.cos(-h), r * Math.sin(-h));
+      s.absarc(0, 0, r, -h, h, false);
+      s.lineTo(0, 0);
+      return s;
+    }
+
+    /* ----- geometry factories (z is up) ----- */
+    function lump(seed, w, h) {
+      var g = new THREE.SphereGeometry(1, w || 14, h || 10), p = g.attributes.position;
+      for (var i = 0; i < p.count; i++) {
+        var x = p.getX(i), y = p.getY(i), z = p.getZ(i);
+        var k = 1 + 0.4 * (fbm(x * 1.7 + seed, y * 1.7, z * 1.7, 2, seed) - 0.5);
+        p.setXYZ(i, x * k, y * k, z * k);
+      }
+      return g;
+    }
+    function puckGeo(rad, thick, cup, rings, segs, ph) {
+      var pos = [], uv = [], idx = [];
+      var topZ = function (rho) { return thick * (1 - 0.4 * sstep(0.82, 1, rho)) + cup * rho * rho; };
+      pos.push(0, 0, topZ(0)); uv.push(0.5, 0.5);
+      for (var ir = 1; ir <= rings; ir++) {
+        var rho = ir / rings;
+        for (var is = 0; is < segs; is++) {
+          var a = is / segs * Math.PI * 2, rr = rad * rho * (1 + 0.05 * Math.sin(3 * a + ph) * rho);
+          pos.push(rr * Math.cos(a), rr * Math.sin(a), topZ(rho));
+          uv.push(0.5 + 0.5 * rho * Math.cos(a), 0.5 + 0.5 * rho * Math.sin(a));
+        }
+      }
+      for (var s0 = 0; s0 < segs; s0++) idx.push(0, 1 + s0, 1 + (s0 + 1) % segs);
+      for (var r2 = 1; r2 < rings; r2++) {
+        for (var s1 = 0; s1 < segs; s1++) {
+          var a0 = 1 + (r2 - 1) * segs + s1, a1 = 1 + (r2 - 1) * segs + (s1 + 1) % segs;
+          var b0 = a0 + segs, b1 = a1 + segs;
+          idx.push(a0, b0, a1, a1, b0, b1);
+        }
+      }
+      var wb = pos.length / 3;
+      var last = 1 + (rings - 1) * segs;
+      for (var s2 = 0; s2 < segs; s2++) {
+        var k = (last + s2) * 3, ku = (last + s2) * 2;
+        pos.push(pos[k], pos[k + 1], pos[k + 2], pos[k], pos[k + 1], 0);
+        uv.push(uv[ku], uv[ku + 1], uv[ku], uv[ku + 1]);
+      }
+      for (var s3 = 0; s3 < segs; s3++) {
+        var w0 = wb + s3 * 2, w1 = wb + ((s3 + 1) % segs) * 2;
+        idx.push(w0, w0 + 1, w1, w1, w0 + 1, w1 + 1);
+      }
+      return geoFrom(pos, null, uv, idx);
+    }
+    function leafGeo(L, W, cup, curl, base, vein, lobe) {
+      var nu = 12, nv = 6, pos = [], col = [], idx = [], c = new THREE.Color();
+      for (var iu = 0; iu <= nu; iu++) {
+        var u = iu / nu, w = W * Math.pow(Math.max(0, Math.sin(Math.PI * Math.pow(u, 0.7))), 0.85) * (1 + (lobe || 0) * Math.sin(u * Math.PI * 8));
+        for (var iv = 0; iv <= nv; iv++) {
+          var v = iv / nv * 2 - 1;
+          pos.push(u * L - L * 0.5, v * w, cup * v * v * W * 1.2 + curl * u * u * L + 0.008 * Math.sin(u * 9 + v * 3));
+          c.copy(base);
+          if (Math.abs(v) < 0.16) c.lerp(vein, 0.85);
+          else c.lerp(vein, 0.18 * (0.5 + 0.5 * Math.sin(u * 26 - Math.abs(v) * 6)));
+          c.multiplyScalar(1 - 0.18 * v * v);
+          col.push(c.r, c.g, c.b);
+        }
+      }
+      for (var a = 0; a < nu; a++) {
+        for (var b = 0; b < nv; b++) {
+          var i0 = a * (nv + 1) + b, i1 = i0 + nv + 1;
+          idx.push(i0, i1, i0 + 1, i0 + 1, i1, i1 + 1);
+        }
+      }
+      return geoFrom(pos, col, null, idx);
+    }
+    function extruded(shape, depth, bevel) {
+      var g = new THREE.ExtrudeGeometry(shape, { depth: depth, bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 2, curveSegments: 10 });
+      return g;
+    }
+
+    var GC = {};
+    function cached(k, fn) { return GC[k] || (GC[k] = fn()); }
+
+    function mozzGeo(v) {
+      return cached('mozz' + v, function () {
+        return paintFn(lump(3 + v * 5), function (c, x, y, z) {
+          var n = fbm(x * 3 + v, y * 3, z * 3, 2, 4);
+          c.copy(C.mozz);
+          if (z > 0.15) c.lerp(C.mozzTop, 0.45 + 0.5 * n);
+          if (n > 0.66 && z > 0) c.lerp(C.blister, 0.55);
+        });
+      });
+    }
+    function gorgGeo(v) {
+      return cached('gorg' + v, function () {
+        return paintFn(lump(40 + v * 3), function (c, x, y, z) {
+          var n = fbm(x * 4 + v, y * 4, z * 4, 2, 9);
+          c.copy(C.gorgon);
+          if (n > 0.6) c.lerp(C.blue, 0.8);
+        });
+      });
+    }
+    function truffleGeo() {
+      return cached('truf', function () {
+        return paintFn(lump(77), function (c, x, y, z) {
+          c.copy(C.truffle);
+          if (fbm(x * 5, y * 5, z * 5, 2, 12) > 0.6) c.lerp(C.truffleV, 0.7);
+        });
+      });
+    }
+    function mushGeo() {
+      return cached('mush', function () {
+        var s = new THREE.Shape();
+        s.moveTo(-0.045, -0.2); s.lineTo(-0.045, -0.02); s.lineTo(-0.19, -0.02);
+        s.quadraticCurveTo(-0.19, 0.18, 0, 0.18);
+        s.quadraticCurveTo(0.19, 0.18, 0.19, -0.02);
+        s.lineTo(0.045, -0.02); s.lineTo(0.045, -0.2); s.lineTo(-0.045, -0.2);
+        var g = extruded(s, 0.03, 0.008);
+        return paintFn(g, function (c, x, y, z, nx, ny, nz) { c.copy(Math.abs(nz) > 0.5 ? C.mushFace : C.mushSide); });
+      });
+    }
+    function strawGeo() {
+      return cached('straw', function () {
+        var s = new THREE.Shape();
+        s.moveTo(0, -0.17);
+        s.bezierCurveTo(0.08, -0.1, 0.18, 0.0, 0.15, 0.1);
+        s.bezierCurveTo(0.13, 0.17, 0.03, 0.17, 0, 0.13);
+        s.bezierCurveTo(-0.03, 0.17, -0.13, 0.17, -0.15, 0.1);
+        s.bezierCurveTo(-0.18, 0.0, -0.08, -0.1, 0, -0.17);
+        var items = [{ geo: paint(extruded(s, 0.05, 0.01), C.straw) }];
+        items.push({ geo: paint(new THREE.SphereGeometry(1, 10, 6), C.strawCore), p: [0, 0.01, 0.062], s: [0.05, 0.075, 0.012] });
+        [[-0.09, 0.07], [0.09, 0.07], [-0.05, -0.05], [0.05, -0.05], [0, 0.11], [0, -0.1]].forEach(function (q) {
+          items.push({ geo: paint(new THREE.SphereGeometry(1, 5, 4), C.seed), p: [q[0], q[1], 0.064], s: [0.012, 0.018, 0.006] });
+        });
+        return compose(items);
+      });
+    }
+    function shrimpGeo() {
+      return cached('shrimp', function () {
+        var items = [], n = 7;
+        for (var k = 0; k < n; k++) {
+          var t = k / (n - 1), ang = 0.2 + t * 3.7, sz = 0.07 - 0.035 * t;
+          var g = paint(new THREE.SphereGeometry(1, 10, 8), k % 2 ? C.shrimpB : C.shrimpA);
+          items.push({ geo: g, p: [Math.cos(ang) * 0.13, Math.sin(ang) * 0.13, 0.035 + 0.025 * Math.sin(t * 3.14)], r: [0, 0, ang], s: [sz * 0.8, sz * 1.2, sz * 0.95] });
+        }
+        var ae = 0.2 + 3.7 + 0.22;
+        items.push({ geo: paint(new THREE.SphereGeometry(1, 8, 6), C.shrimpA), p: [Math.cos(ae) * 0.145, Math.sin(ae) * 0.145, 0.03], r: [0, 0, ae], s: [0.012, 0.06, 0.012] });
+        items.push({ geo: paint(new THREE.SphereGeometry(1, 6, 4), C.chili), p: [0.145, 0.03, 0.05], s: [0.015, 0.015, 0.015] });
+        return compose(items);
+      });
+    }
+    function musselGeo() {
+      return cached('mussel', function () {
+        return compose([
+          { geo: paint(new THREE.SphereGeometry(1, 14, 10), C.shell), s: [0.2, 0.125, 0.07] },
+          { geo: paint(lump(31), C.flesh), p: [0.01, 0, 0.045], s: [0.12, 0.07, 0.045] }
+        ]);
+      });
+    }
+    function sprigGeo() {
+      return cached('sprig', function () {
+        var items = [{ geo: paint(new THREE.CylinderGeometry(0.008, 0.01, 0.34, 5), C.stem), p: [0, 0, 0] }];
+        for (var k = 0; k < 9; k++) {
+          var y = -0.13 + k * 0.03, side = k % 2 ? 1 : -1;
+          items.push({
+            geo: paint(new THREE.CylinderGeometry(0.006, 0.003, 0.13, 4), C.rosemary),
+            p: [side * 0.045, y, 0.004], r: [0, 0, -side * 1.0]
+          });
+        }
+        return compose(items);
+      });
+    }
+
+    function hamGeo(v) {
+      return cached('ham' + v, function () {
+        var nu = 22, nv = 4, L = 0.52, Wd = 0.15, pos = [], col = [], idx = [], c = new THREE.Color();
+        for (var iu = 0; iu <= nu; iu++) {
+          var u = iu / nu;
+          for (var iv = 0; iv <= nv; iv++) {
+            var vv = iv / nv;
+            pos.push((u - 0.5) * L, (vv - 0.5) * Wd + 0.03 * Math.sin(u * 9 + v), 0.035 + 0.04 * Math.sin(u * 14 + vv * 2 + v));
+            c.copy(C.ham).lerp(C.hamFat, sstep(0.72, 1, vv) * 0.9);
+            c.multiplyScalar(0.92 + 0.12 * Math.sin(u * 31 + vv * 5));
+            col.push(c.r, c.g, c.b);
+          }
+        }
+        for (var a = 0; a < nu; a++) {
+          for (var b = 0; b < nv; b++) { var i0 = a * (nv + 1) + b, i1 = i0 + nv + 1; idx.push(i0, i1, i0 + 1, i0 + 1, i1, i1 + 1); }
+        }
+        return geoFrom(pos, col, null, idx);
+      });
+    }
+    function sausGeo(v) {
+      return cached('saus' + v, function () {
+        return paintFn(lump(90 + v * 4, 10, 8), function (c, x, y, z) {
+          c.copy(C.sausage).lerp(C.sausageHi, fbm(x * 4, y * 4, z * 4, 2, 6) > 0.55 ? 0.8 : 0.1);
+        });
+      });
+    }
+    function nutGeo(v) {
+      return cached('nut' + v, function () {
+        return paintFn(lump(120 + v * 3, 10, 8), function (c, x, y, z) {
+          c.copy(C.nut).lerp(C.nutDark, fbm(x * 3, y * 3, z * 3, 2, 8) > 0.58 ? 0.7 : 0.05);
+        });
+      });
+    }
+    function rocketGeo(v) {
+      return cached('rocket' + v, function () { return leafGeo(0.4, 0.075, 0.6, 0.3, C.rocket, C.rocketVein, 0.28); });
+    }
+    function cutFace(side) {
+      return cached('cut' + side, function () {
+        var len = R - 0.27, g = new THREE.PlaneGeometry(len, 0.2, 1, 1);
+        g.rotateX(Math.PI / 2);
+        g.translate(len / 2, 0, 0.1);
+        g.rotateZ(side * H);
+        return g;
+      });
+    }
+
+    /* ----- surface of sauce and cheese ----- */
+    var tmpA = new THREE.Color(), tmpB = new THREE.Color();
+    function surf(sp, seed, x, y, o) {
+      var r = Math.sqrt(x * x + y * y);
+      var n = fbm(x * 1.15, y * 1.15, seed * 0.31, 3, seed);
+      var m = fbm(x * 3.6, y * 3.6, seed * 0.7, 3, seed + 5);
+      var q = fbm(x * 9, y * 9, seed, 2, seed + 9);
+      var c;
+      if (sp.full) {
+        c = 1 - sstep(R - 0.75, R - 0.35, r);
+      } else {
+        var thr = sp.thr + 0.45 * sstep(R - 1.35, R - 0.55, r);
+        c = clamp01((n - thr) * 7);
+        c = c * c * (3 - 2 * c);
+      }
+      var amp = sp.smooth ? 0.012 : 0.12;
+      o.c = c;
+      o.z = 0.232 + c * (0.03 + amp * (m - 0.35)) + 0.006 * (q - 0.5);
+      tmpA.copy(sp.sauceC).lerp(sp.sauceD, sstep(0.45, 0.7, q));
+      tmpB.copy(sp.cheeseC).lerp(sp.cheeseHi, sstep(0.48, 0.66, n * 0.6 + m * 0.4));
+      if (!sp.smooth) tmpB.lerp(sp.blisterC, sstep(0.6, 0.72, m) * 0.85);
+      tmpA.lerp(tmpB, sstep(0.12, 0.5, c));
+      tmpA.multiplyScalar(0.8 + 0.2 * sstep(R - 0.55, R - 0.95, r));
+      o.col = tmpA;
+      return o;
+    }
+    function surfaceGeo(sp, seed) {
+      var nR = 64, nA = 40, r0 = 0.04, r1 = R - 0.2, N1 = nA + 1;
+      var pos = [], col = [], idx = [], uv = [], o = {};
+      for (var ir = 0; ir <= nR; ir++) {
+        var r = r0 + (r1 - r0) * ir / nR;
+        for (var ia = 0; ia <= nA; ia++) {
+          var a = -H + 2 * H * ia / nA, x = r * Math.cos(a), y = r * Math.sin(a);
+          surf(sp, seed, x, y, o);
+          pos.push(x, y, o.z);
+          uv.push(x * 0.45, y * 0.45);
+          col.push(o.col.r, o.col.g, o.col.b);
+        }
+      }
+      for (var i = 0; i < nR; i++) {
+        for (var j = 0; j < nA; j++) {
+          var p0 = i * N1 + j, p1 = p0 + N1;
+          idx.push(p0, p1, p0 + 1, p0 + 1, p1, p1 + 1);
+        }
+      }
+      [0, nA].forEach(function (cutA) {
+        var base = pos.length / 3;
+        for (var q = 0; q <= nR; q++) {
+          var k = (q * N1 + cutA) * 3;
+          pos.push(pos[k], pos[k + 1], pos[k + 2], pos[k], pos[k + 1], 0.2);
+          var ku = (q * N1 + cutA) * 2;
+          uv.push(uv[ku], uv[ku + 1], uv[ku], uv[ku + 1]);
+          col.push(col[k], col[k + 1], col[k + 2], col[k] * 0.8, col[k + 1] * 0.8, col[k + 2] * 0.8);
+        }
+        for (var w = 0; w < nR; w++) {
+          var w0 = base + w * 2;
+          idx.push(w0, w0 + 1, w0 + 2, w0 + 2, w0 + 1, w0 + 3);
+        }
+      });
+      return geoFrom(pos, col, uv, idx);
+    }
+
+    /* ----- puffy, blistered crust ----- */
+    function crustGeo(seed) {
+      var nA = 90, nT = 26, cr = R - 0.14, rt = 0.14, zt = 0.15, zc = 0.15;
+      var pos = [], col = [], idx = [], uv = [], c = new THREE.Color();
+      for (var ia = 0; ia <= nA; ia++) {
+        var a = -H + 2 * H * ia / nA, ca = Math.cos(a), sa = Math.sin(a);
+        for (var it = 0; it < nT; it++) {
+          var ph = it / nT * Math.PI * 2, cp = Math.cos(ph), sp = Math.sin(ph);
+          var rr = cr + rt * cp, zz = zc + zt * sp;
+          var x = rr * ca, y = rr * sa;
+          var n1 = fbm(x * 2.2, y * 2.2, zz * 2.2, 3, seed);
+          var n2 = vnoise(x * 9, y * 9, zz * 9, seed + 3);
+          var n3 = fbm(x * 5 + 3, y * 5, zz * 5, 2, seed + 7);
+          var d = 0.2 * (n1 - 0.5) + 0.05 * (n2 - 0.5) + 0.05 * sstep(0.6, 0.75, n3);
+          if (sp < -0.3) d *= 0.4;
+          x += cp * ca * d; y += cp * sa * d; zz = Math.max(0.004, zz + sp * d * 1.1);
+          var top = clamp01((sp + 0.35));
+          var q = fbm(x * 3.4 + 11, y * 3.4, zz * 3.4, 4, seed + 9);
+          c.copy(C.crBase).lerp(C.crGold, sstep(0.42, 0.58, q) * top * 0.75);
+          c.lerp(C.crChar, sstep(0.55, 0.67, q) * (0.35 + 0.65 * top) * 0.92);
+          if (n2 > 0.72 && top > 0.5) c.lerp(C.crPale, 0.35);
+          c.lerp(C.crPale, 0.45 * (1 - top));
+          pos.push(x, y, zz);
+          uv.push(a * cr * 1.6, ph / (Math.PI * 2) * 3);
+          col.push(c.r, c.g, c.b);
+        }
+      }
+      var N = nT;
+      for (var i = 0; i < nA; i++) {
+        for (var j = 0; j < nT; j++) {
+          var j1 = (j + 1) % nT;
+          var a0 = i * N + j, b0 = (i + 1) * N + j, c0 = i * N + j1, d0 = (i + 1) * N + j1;
+          idx.push(a0, b0, c0, c0, b0, d0);
+        }
+      }
+      [0, nA].forEach(function (ring, side) {
+        var base = pos.length / 3, cx = cr * Math.cos(-H + 2 * H * ring / nA), cy = cr * Math.sin(-H + 2 * H * ring / nA);
+        pos.push(cx, cy, zc);
+        uv.push(0, 0);
+        col.push(C.crumb.r, C.crumb.g, C.crumb.b);
+        for (var t = 0; t < nT; t++) {
+          var k = (ring * N + t) * 3;
+          pos.push(pos[k], pos[k + 1], pos[k + 2]);
+          uv.push(0, 0);
+          var h = vnoise(pos[k] * 12, pos[k + 1] * 12, pos[k + 2] * 12, seed + 4);
+          c.copy(C.crumb).lerp(C.crumbHole, h > 0.6 ? 0.5 : 0.12);
+          col.push(c.r, c.g, c.b);
+        }
+        for (var t2 = 0; t2 < nT; t2++) {
+          var u0 = base + 1 + t2, u1 = base + 1 + (t2 + 1) % nT;
+          if (side === 0) idx.push(base, u0, u1); else idx.push(base, u1, u0);
+        }
+      });
+      return geoFrom(pos, col, uv, idx);
+    }
+
+    /* ----- slice recipes ----- */
+    var SPEC = [
+      { sauce: '#c4361f', sauceD: '#a02614', cheese: '#f0c35a', cheeseHi: '#fff0c4', blister: '#b8722a', thr: 0.36, drizzle: 2,
+        top: [['mozz', 5], ['tomato', 4], ['basil', 5], ['flake', 25], ['pepper', 15], ['herb', 45]] },
+      { sauce: '#c13a20', sauceD: '#9a2614', cheese: '#efbf55', cheeseHi: '#ffe9b5', blister: '#b8702a', thr: 0.36, drizzle: 2,
+        top: [['ham', 3], ['pepperoni', 8], ['sausage', 8], ['flake', 20], ['herb', 40]] },
+      { sauce: '#c4361f', sauceD: '#a02614', cheese: '#f0c35a', cheeseHi: '#fff0c4', blister: '#b8722a', thr: 0.38, drizzle: 1,
+        top: [['pepperG', 3], ['pepperY', 3], ['zucchini', 3], ['mushroom', 2], ['olive', 5], ['tomato', 3], ['basil', 2], ['flake', 20], ['herb', 30]] },
+      { sauce: '#b82a18', sauceD: '#8f1f10', cheese: '#eeb64c', cheeseHi: '#ffe2a0', blister: '#a8601f', thr: 0.36,
+        top: [['salami', 6], ['chili', 9], ['chiliF', 70], ['herb', 30]] },
+      { sauce: '#eadcb0', sauceD: '#d9c58f', cheese: '#f5e9c3', cheeseHi: '#fffbe6', blister: '#c9964a', thr: 0.33, drizzle: 1,
+        top: [['mushroom', 4], ['cheese', 4], ['truffle', 4], ['rosemary', 4], ['rocket', 5], ['pepper', 20], ['flake', 25]] },
+      { sauce: '#c4361f', sauceD: '#a02614', cheese: '#f0c850', cheeseHi: '#fff0c0', blister: '#b8722a', thr: 0.38, drizzle: 1,
+        top: [['shrimp', 4], ['mussel', 3], ['basil', 3], ['caper', 6], ['herb', 30]] },
+      { sauce: '#3a1e12', sauceD: '#2c150c', cheese: '#52301c', cheeseHi: '#6b4128', blister: '#6b4128', full: true, smooth: true, rough: 0.3,
+        top: [['swirl', 3], ['strawberry', 4], ['nut', 10], ['sugar', 40]] },
+      { sauce: '#1b7d96', sauceD: '#14677c', cheese: '#3fb2cc', cheeseHi: '#7fd3e4', blister: '#7fd3e4', full: true, smooth: true, rough: 0.22,
+        top: [['lemon', 3], ['mint', 6], ['ice', 5]] }
+    ];
+    SPEC.forEach(function (s) {
+      s.sauceC = lin(s.sauce); s.sauceD = lin(s.sauceD); s.cheeseC = lin(s.cheese); s.cheeseHi = lin(s.cheeseHi); s.blisterC = lin(s.blister);
+    });
+
+    var KR = { mozz: 0.27, basil: 0.19, mint: 0.17, pepperoni: 0.23, salami: 0.21, chili: 0.1, pepperG: 0.17, pepperY: 0.17, olive: 0.1,
+      zucchini: 0.18, mushroom: 0.2, cheese: 0.19, rosemary: 0.18, truffle: 0.13, shrimp: 0.22, mussel: 0.21, strawberry: 0.18,
+      swirl: 0.24, lemon: 0.26, ice: 0.19, herb: 0.03, sugar: 0.03,
+      tomato: 0.15, ham: 0.26, sausage: 0.07, rocket: 0.2, caper: 0.04, flake: 0.03, chiliF: 0.03, pepper: 0.015, nut: 0.06 };
+    var FREE = { herb: 1, sugar: 1, flake: 1, chiliF: 1, pepper: 1 };
+
+    function place(used, rnd, rad, free) {
+      var rmin = free ? 0.4 : Math.max(0.75, rad * 3.1), rmax = R - (free ? 0.4 : 0.3 + rad * 0.5);
+      for (var t = 0; t < 120; t++) {
+        var r = rmin + rnd() * (rmax - rmin), am = H - 0.035 - rad / r;
+        if (am <= 0) continue;
+        var a = (rnd() * 2 - 1) * am, x = r * Math.cos(a), y = r * Math.sin(a), ok = true;
+        if (!free) {
+          for (var k = 0; k < used.length; k++) {
+            if (Math.hypot(used[k].x - x, used[k].y - y) < (rad + used[k].r) * 0.92) { ok = false; break; }
+          }
+        }
+        if (ok) { if (!free) used.push({ x: x, y: y, r: rad }); return { x: x, y: y }; }
+      }
+      return null;
+    }
+
+    function put(B, kind, x, y, z0, rnd) {
+      var rz = rnd() * Math.PI * 2, tilt = (rnd() - 0.5) * 0.12, vr = 0.9 + rnd() * 0.2, v3 = Math.floor(rnd() * 3);
+      switch (kind) {
+        case 'mozz':
+          B.add('vc', mozzGeo(v3), { p: [x, y, z0 + 0.005], r: [0, 0, rz], s: [0.26 * vr, 0.22 * (1.7 - vr), 0.085] }); break;
+        case 'basil':
+          B.add('leaf', cached('basil' + v3, function () { return leafGeo(0.42 + v3 * 0.03, 0.15, 0.5, 0.25, C.basil, C.basilVein); }),
+            { p: [x, y, z0 + 0.03], r: [tilt, tilt, rz] }); break;
+        case 'mint':
+          B.add('leaf', cached('mint' + v3, function () { return leafGeo(0.3, 0.13, 0.4, 0.2, C.mint, C.mintVein); }),
+            { p: [x, y, z0 + 0.03], r: [tilt, tilt, rz] }); break;
+        case 'pepperoni':
+          B.add('pep', cached('pepG' + v3, function () { return puckGeo(0.22, 0.03, 0.04, 5, 28, v3 * 2); }),
+            { p: [x, y, z0 - 0.004], r: [tilt, tilt, rz], s: [vr, vr, 1] }); break;
+        case 'salami':
+          B.add('sal', cached('salG' + v3, function () { return puckGeo(0.2, 0.03, 0.025, 5, 28, v3 * 2); }),
+            { p: [x, y, z0 - 0.004], r: [tilt, tilt, rz], s: [vr, vr, 1] }); break;
+        case 'zucchini':
+          B.add('zuc', cached('zucG' + v3, function () { return puckGeo(0.17, 0.03, 0.015, 4, 24, v3); }),
+            { p: [x, y, z0 - 0.002], r: [tilt, tilt, rz], s: [vr, vr, 1] }); break;
+        case 'lemon':
+          B.add('lem', cached('lemG', function () { return puckGeo(0.25, 0.045, 0.01, 5, 30, 1); }),
+            { p: [x, y, z0 + 0.008], r: [tilt, tilt, rz] }); break;
+        case 'chili':
+          B.add('gloss', cached('chiliG', function () { return paint(new THREE.TorusGeometry(0.065, 0.028, 6, 12), C.chili); }),
+            { p: [x, y, z0 + 0.018], r: [0, 0, rz], s: [vr, vr, 0.8] }); break;
+        case 'olive':
+          B.add('gloss', cached('oliveG', function () { return paint(new THREE.TorusGeometry(0.07, 0.036, 8, 16), C.olive); }),
+            { p: [x, y, z0 + 0.02], r: [0, 0, rz], s: [vr, 1.9 - vr, 0.85] }); break;
+        case 'pepperG':
+        case 'pepperY':
+          B.add('gloss', cached(kind + 'G', function () { return paint(new THREE.TorusGeometry(0.15, 0.034, 6, 16, Math.PI), kind === 'pepperG' ? C.pepG : C.pepY); }),
+            { p: [x, y, z0 + 0.03], r: [0, 0, rz], s: [1, 1, 0.75] }); break;
+        case 'mushroom':
+          B.add('vc', mushGeo(), { p: [x, y, z0 + 0.005], r: [0, 0, rz] }); break;
+        case 'cheese':
+          B.add('vc', gorgGeo(v3), { p: [x, y, z0 + 0.005], r: [0, 0, rz], s: [0.17 * vr, 0.15, 0.07] }); break;
+        case 'truffle':
+          B.add('gloss', truffleGeo(), { p: [x, y, z0 + 0.005], r: [0, 0, rz], s: [0.1 * vr, 0.075, 0.022] }); break;
+        case 'rosemary':
+          B.add('vc', sprigGeo(), { p: [x, y, z0 + 0.025], r: [0, 0, rz] }); break;
+        case 'shrimp':
+          B.add('gloss', shrimpGeo(), { p: [x, y, z0 + 0.03], r: [0, 0, rz] }); break;
+        case 'mussel':
+          B.add('gloss', musselGeo(), { p: [x, y, z0 + 0.025], r: [0, 0, rz] }); break;
+        case 'strawberry':
+          B.add('gloss', strawGeo(), { p: [x, y, z0 + 0.005], r: [0, 0, rz] }); break;
+        case 'swirl':
+          B.add('gloss', cached('swirlG', function () {
+            return paintFn(lump(57), function (c, px, py, pz) { c.copy(C.swirl).lerp(C.swirlHi, sstep(0.3, 0.9, pz) * 0.7); });
+          }), { p: [x, y, z0 - 0.004], r: [0, 0, rz], s: [0.23 * vr, 0.17, 0.045] }); break;
+        case 'ice':
+          B.add('ice', cached('iceG', function () { return new THREE.BoxGeometry(0.26, 0.26, 0.2); }),
+            { p: [x, y, z0 + 0.09], r: [rnd() * 0.5, rnd() * 0.5, rz] }); break;
+        case 'tomato':
+          B.add('tom', cached('tomG' + v3, function () { return puckGeo(0.14, 0.055, 0, 4, 24, v3); }),
+            { p: [x, y, z0 - 0.004], r: [tilt, tilt, rz], s: [vr, vr, 1] }); break;
+        case 'ham':
+          B.add('leaf', hamGeo(v3), { p: [x, y, z0 + 0.012], r: [0, 0, rz] }); break;
+        case 'sausage':
+          B.add('vc', sausGeo(v3), { p: [x, y, z0 + 0.01], r: [0, 0, rz], s: [0.055 * vr, 0.05, 0.04] }); break;
+        case 'rocket':
+          B.add('leaf', rocketGeo(v3), { p: [x, y, z0 + 0.03], r: [tilt, tilt, rz] }); break;
+        case 'caper':
+          B.add('gloss', cached('caperG', function () { return paint(new THREE.SphereGeometry(1, 8, 6), C.caper); }),
+            { p: [x, y, z0 + 0.02], s: [0.038, 0.038, 0.034] }); break;
+        case 'flake':
+          B.add('vc', cached('flakeG', function () { return paint(new THREE.SphereGeometry(1, 6, 4), C.flake); }),
+            { p: [x, y, z0 + 0.006], r: [0, 0, rz], s: [0.03 + rnd() * 0.035, 0.018 + rnd() * 0.012, 0.006] }); break;
+        case 'chiliF':
+          B.add('vc', cached('chilifG', function () { return paint(new THREE.SphereGeometry(1, 6, 4), C.chiliF); }),
+            { p: [x, y, z0 + 0.006], r: [0, 0, rz], s: [0.022 + rnd() * 0.02, 0.01 + rnd() * 0.008, 0.007] }); break;
+        case 'pepper':
+          B.add('vc', cached('pepperBG', function () { return paint(new THREE.SphereGeometry(1, 5, 4), C.pepperB); }),
+            { p: [x, y, z0 + 0.006], s: [0.013, 0.013, 0.01] }); break;
+        case 'nut':
+          B.add('vc', nutGeo(v3), { p: [x, y, z0 + 0.005], r: [0, 0, rz], s: [0.06 * vr, 0.05, 0.04] }); break;
+        case 'herb':
+          B.add('vc', cached('herbG' + v3, function () { return paint(new THREE.SphereGeometry(1, 6, 4), v3 === 1 ? C.herbA : C.herbB); }),
+            { p: [x, y, z0 + 0.004], r: [0, 0, rz], s: [0.025 + rnd() * 0.03, 0.012 + rnd() * 0.008, 0.008] }); break;
+        case 'sugar':
+          B.add('vc', cached('sugarG', function () { return paint(new THREE.SphereGeometry(1, 5, 4), C.sugar); }),
+            { p: [x, y, z0 + 0.012], s: [0.022, 0.022, 0.016] }); break;
+      }
+    }
+
+    function buildSlice(inner, i) {
+      var sp = SPEC[i], rnd = mulberry32(100 + i * 31), seed = 11 + i * 7;
+
+      var dough = new THREE.Mesh(
+        new THREE.ExtrudeGeometry(wedge(R - 0.12, H - 0.003), { depth: 0.22, bevelEnabled: false, curveSegments: 18 }),
+        DOUGH_MAT);
+      dough.castShadow = true; dough.receiveShadow = true;
+      inner.add(dough);
+
+      var surfMat = M({ vertexColors: true, roughness: sp.rough || 0.5, envMapIntensity: sp.smooth ? 0.9 : 0.5, side: DS, bumpMap: texBump, bumpScale: sp.smooth ? 0.15 : 0.45 });
+      var surface = new THREE.Mesh(surfaceGeo(sp, seed), surfMat);
+      surface.castShadow = true; surface.receiveShadow = true;
+      inner.add(surface);
+
+      var crust = new THREE.Mesh(crustGeo(70 + i * 3), CRUST_MAT);
+      crust.castShadow = true; crust.receiveShadow = true;
+      inner.add(crust);
+      [-1, 1].forEach(function (sd) {
+        var cf = new THREE.Mesh(cutFace(sd), CRUMB_MAT);
+        cf.receiveShadow = true;
+        inner.add(cf);
+      });
+
+      var B = new Batch(), used = [], o = {};
+      sp.top.forEach(function (t) {
+        var kind = t[0], free = !!FREE[kind];
+        for (var k = 0; k < t[1]; k++) {
+          var pt = place(used, rnd, KR[kind], free);
+          if (!pt) continue;
+          surf(sp, seed, pt.x, pt.y, o);
+          put(B, kind, pt.x, pt.y, o.z, rnd);
+        }
+      });
+      /* shiny pools of oil on the cheese */
+      if (!sp.smooth) {
+        var oilGeo = cached('oilG', function () { return new THREE.SphereGeometry(1, 10, 6); });
+        for (var q = 0; q < 10; q++) {
+          var op = place(used, rnd, 0.1, true);
+          if (!op) continue;
+          surf(sp, seed, op.x, op.y, o);
+          if (o.c < 0.6) continue;
+          var rs = 0.05 + rnd() * 0.1;
+          B.add('oil', oilGeo, { p: [op.x, op.y, o.z + 0.012], r: [0, 0, rnd() * 6], s: [rs, rs * (0.6 + rnd() * 0.5), 0.012] });
+        }
+      }
+      /* thin threads of olive oil */
+      for (var dz = 0; dz < (sp.drizzle || 0); dz++) {
+        var pts = [], a0 = (rnd() * 2 - 1) * 0.15, php = rnd() * 6, rr0 = 0.8 + rnd() * 0.4;
+        for (var st = 0; st < 14; st++) {
+          var rr = rr0 + st * 0.12, aa = a0 + 0.1 * Math.sin(st * 0.9 + php);
+          aa = Math.max(-(H - 0.07), Math.min(H - 0.07, aa));
+          surf(sp, seed, rr * Math.cos(aa), rr * Math.sin(aa), o);
+          pts.push(new THREE.Vector3(rr * Math.cos(aa), rr * Math.sin(aa), o.z + 0.016));
+        }
+        B.add('oil', new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 44, 0.013, 5, false));
+      }
+      Object.keys(B.parts).forEach(function (kk) {
+        var m = new THREE.Mesh(mergeGeos(B.parts[kk]), MATS[kk]);
+        m.castShadow = kk !== 'oil'; m.receiveShadow = true;
+        if (kk === 'oil') m.renderOrder = 2;
+        inner.add(m);
+      });
+    }
+
+    var pizza = new THREE.Group();
+    scene.add(pizza);
+    var slices = [], pickables = [];
+    var proxyGeo = new THREE.ExtrudeGeometry(wedge(R + 0.05, H + 0.02), { depth: 0.45, bevelEnabled: false, curveSegments: 8 });
+    var proxyMat = new THREE.MeshBasicMaterial({ visible: false });
+    for (var i = 0; i < N; i++) {
+      var holder = new THREE.Group();
+      holder.rotation.y = -i * STEP;
+      var mover = new THREE.Group();
+      holder.add(mover);
+      var inner = new THREE.Group();
+      inner.rotation.x = -Math.PI / 2;
+      mover.add(inner);
+      pizza.add(holder);
+      buildSlice(inner, i);
+      var proxy = new THREE.Mesh(proxyGeo, proxyMat);
+      proxy.position.z = -0.02;
+      proxy.userData.slice = i;
+      inner.add(proxy);
+      pickables.push(proxy);
+      slices.push({ mover: mover, k: 0 });
+    }
+
+    /* faint steam rising from the pizza */
+    var steam = [];
+    if (!reduce) {
+      var puffTex = canvasTex(64, function (g, S) {
+        var gr = g.createRadialGradient(S / 2, S / 2, 0, S / 2, S / 2, S / 2);
+        gr.addColorStop(0, 'rgba(255,240,222,0.9)'); gr.addColorStop(1, 'rgba(255,240,222,0)');
+        g.fillStyle = gr; g.fillRect(0, 0, S, S);
+      });
+      var srnd = mulberry32(5);
+      for (var si = 0; si < 14; si++) {
+        var spr = new THREE.Sprite(new THREE.SpriteMaterial({ map: puffTex, transparent: true, opacity: 0, depthWrite: false }));
+        scene.add(spr);
+        var sa = srnd() * 6.283, sr = Math.sqrt(srnd()) * 2.2;
+        steam.push({ s: spr, t: srnd(), x: Math.cos(sa) * sr, z: Math.sin(sa) * sr, sp: 0.07 + srnd() * 0.06, ph: srnd() * 6 });
+      }
+    }
+    function updateSteam(dt, time) {
+      for (var i = 0; i < steam.length; i++) {
+        var p = steam[i];
+        p.t += dt * p.sp;
+        if (p.t > 1) p.t -= 1;
+        var k = p.t, sc = 0.8 + k * 1.8;
+        p.s.position.set(p.x + Math.sin(time * 0.6 + p.ph) * 0.2 * k, 0.45 + k * 2.4, p.z);
+        p.s.scale.set(sc, sc, 1);
+        p.s.material.opacity = 0.1 * Math.sin(Math.PI * k);
+      }
+    }
+
+    /* state */
+    var yaw = -Math.PI / 2 - 0 * STEP;   /* slice 0 faces the viewer */
+    var yawTarget = null;
+    var dragging = false, moved = 0, lastX = 0;
+    var raycaster = new THREE.Raycaster();
+    var ndc = new THREE.Vector2();
+    var labelW = [];
+
+    function cacheLabelSizes() { labelW = labelEls.map(function (b) { return b.offsetWidth; }); }
+
+    function resize() {
+      var w = stage.clientWidth, h = stage.clientHeight;
+      if (!w || !h) return;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      var t = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+      var el = 0.84;
+      var d = Math.max(5.6 / (t * camera.aspect), 4.5 / t);
+      camera.position.set(0, Math.sin(el) * d, Math.cos(el) * d);
+      camera.lookAt(0, 0, 0);
+      camera.updateProjectionMatrix();
+      cacheLabelSizes();
+      placeLabels();
+    }
+
+    var v = new THREE.Vector3();
+    function placeLabels() {
+      pizza.updateMatrixWorld(true);
+      camera.updateMatrixWorld(true);
+      var w = stage.clientWidth, h = stage.clientHeight;
+      for (var i = 0; i < N; i++) {
+        var a = i * STEP, rr = R + 1.55;
+        v.set(Math.cos(a) * rr, 0.35, Math.sin(a) * rr);
+        pizza.localToWorld(v);
+        v.project(camera);
+        var x = (v.x * 0.5 + 0.5) * w, y = (-v.y * 0.5 + 0.5) * h;
+        var hw = (labelW[i] || 80) / 2 + 2;
+        x = Math.min(w - hw, Math.max(hw, x));
+        y = Math.min(h - 16, Math.max(16, y));
+        labelEls[i].style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) translate(-50%,-50%)';
+      }
+    }
+
+    function pick(e) {
+      var r = canvas.getBoundingClientRect();
+      ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+      raycaster.setFromCamera(ndc, camera);
+      var hit = raycaster.intersectObjects(pickables, false);
+      return hit.length ? hit[0].object.userData.slice : -1;
+    }
+
+    canvas.addEventListener('pointerdown', function (e) {
+      dragging = true; moved = 0; lastX = e.clientX; yawTarget = null;
+      try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+      canvas.style.cursor = 'grabbing';
+    });
+    canvas.addEventListener('pointermove', function (e) {
+      if (dragging) {
+        var dx = e.clientX - lastX;
+        lastX = e.clientX;
+        moved += Math.abs(dx);
+        yaw += dx * 0.008;
+        return;
+      }
+      if (e.pointerType === 'mouse') {
+        var i = pick(e);
+        setHover(i);
+        canvas.style.cursor = i >= 0 ? 'pointer' : 'grab';
+      }
+    });
+    canvas.addEventListener('pointerup', function (e) {
+      var wasClick = dragging && moved < 6;
+      dragging = false;
+      canvas.style.cursor = 'grab';
+      if (wasClick) {
+        var i = pick(e);
+        if (i >= 0) select(i);
+      }
+    });
+    canvas.addEventListener('pointercancel', function () { dragging = false; canvas.style.cursor = 'grab'; });
+    canvas.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse' && !dragging) setHover(-1); });
+
+    var visible = true;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }).observe(stage);
+    }
+    if ('ResizeObserver' in window) new ResizeObserver(resize).observe(stage);
+    else window.addEventListener('resize', resize);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(cacheLabelSizes);
+
+    var clock = new THREE.Clock(), t = 0;
+    function frame() {
+      requestAnimationFrame(frame);
+      if (!visible) { clock.getDelta(); return; }
+      var dt = Math.min(clock.getDelta(), 0.05);
+      t += dt;
+
+      if (!dragging && yawTarget !== null) {
+        var d = wrapAngle(yawTarget - yaw);
+        yaw += d * Math.min(1, dt * (reduce ? 40 : 5));
+        if (Math.abs(d) < 0.0008) yawTarget = null;
+      }
+      pizza.rotation.y = yaw;
+      pizza.position.y = reduce ? 0 : Math.sin(t * 1.2) * 0.04;
+
+      var speed = reduce ? 60 : 9;
+      for (var i = 0; i < N; i++) {
+        var s = slices[i];
+        var out = i === hovered ? 1 : (i === selected ? 0.6 : 0);
+        s.k += (out - s.k) * Math.min(1, dt * speed);
+        s.mover.position.x = s.k * 1.05;
+        s.mover.position.y = s.k * 0.45;
+        s.mover.rotation.z = s.k * 0.14;
+      }
+      updateSteam(dt, t);
+      placeLabels();
+      renderer.render(scene, camera);
+    }
+
+    resize();
+    frame();
+
+    return {
+      focusSlice: function (i) { yawTarget = i * STEP - Math.PI / 2; }
+    };
   }
 
-  function boot() {
-    renderPanel(selected);
-    paintLabels();
-    bindUI();
-    try { build3D(); }
-    catch (err) { document.body.classList.add('no-gl'); }
+  /* ---------- start ---------- */
+  renderPanel(0);
+  paintLabels();
+  try {
+    view = build3D();
+  } catch (err) {
+    stage.parentNode.classList.add('no-gl');
+    $('hint').textContent = 'Widok 3D nie jest dostępny w tej przeglądarce. Wybierz kategorię z listy.';
+    if (console && console.warn) console.warn(err);
   }
 
-  boot();
+  /* ---------- hours, open status ---------- */
+  var SCHEDULE = {
+    Mon: [720, 1320], Tue: [720, 1320], Wed: [720, 1320], Thu: [720, 1320],
+    Fri: [720, 1410], Sat: [720, 1410], Sun: [780, 1260]
+  };
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  try {
+    var parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Warsaw', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date());
+    var o = {};
+    parts.forEach(function (p) { o[p.type] = p.value; });
+    var wd = o.weekday.slice(0, 3);
+    var minutes = (parseInt(o.hour, 10) % 24) * 60 + parseInt(o.minute, 10);
+    var sch = SCHEDULE[wd];
+    if (sch) {
+      var isOpen = minutes >= sch[0] && minutes < sch[1];
+      var st = $('status');
+      st.classList.toggle('open', isOpen);
+      $('status-text').textContent = isOpen
+        ? 'Otwarte do ' + pad2(Math.floor(sch[1] / 60)) + ':' + pad2(sch[1] % 60)
+        : 'Zamknięte · otwieramy o ' + pad2(Math.floor(sch[0] / 60)) + ':' + pad2(sch[0] % 60);
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('#hours .hours-row'), function (row) {
+      if ((row.getAttribute('data-days') || '').split(' ').indexOf(wd) >= 0) row.classList.add('today');
+    });
+  } catch (err) {}
+
+  /* ---------- copy phone ---------- */
+  var copyBtn = $('copy-phone');
+  copyBtn.addEventListener('click', function () {
+    var text = $('phone').textContent;
+    var done = function () {
+      copyBtn.textContent = 'Skopiowano';
+      setTimeout(function () { copyBtn.textContent = 'Kopiuj numer'; }, 1800);
+    };
+    var fallback = function () {
+      var r = document.createRange();
+      r.selectNodeContents($('phone'));
+      var s = window.getSelection();
+      s.removeAllRanges();
+      s.addRange(r);
+    };
+    try {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } catch (err) { fallback(); }
+  });
 })();
 </script>
 </body>
